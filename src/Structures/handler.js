@@ -1,27 +1,32 @@
 const Discord = require('discord.js')
+const cmdHandler = require('../Handlers/Commands')
+const colors = require('colors')
+const path1 = require('path')
 class Handler {
-    /**
-     * @constructor
-     * 
-     * 
-     * @property {dir} options.commandsDir
-     * @property {dir} options.featuresDir
-     */
     constructor(client, options = {}) {
         this.client = client;
         this.commandsDir = commandsDir;
         this.featuresDir = featuresDir;
         this.prefix = '!';
         this.owners = [];
+        this.commands = new Discord.Collection()
 
 
-        let { commandsDir, featuresDir } = options
+        let { commandsDir, featuresDir, commands } = options
         
         if (!client) throw new TypeError('Stop Utils => Missing Discord Client instance')
 
-        if (!commandsDir) console.warn('Stop Utils => No specified commands folder.')
+        if (!commandsDir) colors.yellow('Stop Utils => No specified commands folder.')
 
-        if (!featuresDir) console.warn('Stop Utils => No specified features folder')
+        if (!featuresDir) colors.yellow('Stop Utils => No specified features folder')
+        
+
+        if (module && require.main) {
+            const { path } = require.main
+            (async () => {
+                await cmdHandler(path1.join(path, commands || this.commandsDir))
+            })()
+        }
     }
     /**
      * 
